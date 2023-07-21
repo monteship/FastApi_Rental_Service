@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ data.title }}</title>
+</head>
+<body>
+<h1>{{ data.title }}</h1>
+<p><strong>City:</strong> {{ data.city }}</p>
+<p><strong>Address:</strong> {{ data.address }}</p>
+<p><strong>Property Type:</strong> {{ data.property_type }}</p>
+<p><strong>Rent:</strong> {{ data.rent }}</p>
+<p><strong>Room Count:</strong> {{ data.room_count }}</p>
+<p><strong>Bathroom Count:</strong> {{ data.bathroom_count }}</p>
+<p><strong>Square Meters:</strong> {{ data.square_meters }}</p>
+<p><strong>External ID:</strong> {{ data.external_id }}</p>
+<p><strong>Zipcode:</strong> {{ data.zipcode }}</p>
+<p><strong>Latitude:</strong> {{ data.latitude }}</p>
+<p><strong>Longitude:</strong> {{ data.longitude }}</p>
+<p><strong>Landlord Name:</strong> {{ data.landlord_name }}</p>
+<p><strong>Landlord Email:</strong> {{ data.landlord_email }}</p>
+<p><strong>Description:</strong> {{ data.description }}</p>
+
+<h2>Images</h2>
+<ul>
+    {% for image in data.images %}
+    <li>
+        <img src="{{ image.external_link }}" alt="Image {{ loop.index }}">
+    </li>
+    {% endfor %}
+</ul>
+
+<p><strong>External Source:</strong> {{ data.external_source }}</p>
+<p><strong>Country:</strong> {{ data.country }}</p>
+</body>
+</html>
