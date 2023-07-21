@@ -15,6 +15,12 @@ app = FastAPI()
 data_folder = "listing"
 
 
+def sort_by_list() -> list:
+    return [
+        'rent', 'bedrooms', 'bathrooms', 'area', 'price_per_sqm',
+    ]
+
+
 @app.get("/", response_class=HTMLResponse)
 def get_countries(request: Request):
     countries = [country_name for country_name in os.listdir(data_folder) if
@@ -26,10 +32,10 @@ def get_countries(request: Request):
     return template.render(context)
 
 
-@app.get("/{country_name}/{sort_key}", response_class=HTMLResponse)
+@app.get("/{country_name}/", response_class=HTMLResponse)
 def get_country_listing(
         country_name: str,
-        sort_key: str,
+        sort_key: str = 'rent',
         order: Optional[str] = "asc",
         page: int = 1,
 ):
@@ -47,7 +53,7 @@ def get_country_listing(
         if json_objects:
             sorted_json_objects = sorted(json_objects, key=lambda x: x.get(sort_key, 0))
 
-            items_per_page = 8
+            items_per_page = 12
             total_items = len(sorted_json_objects)
             total_pages = ceil(total_items / items_per_page)
 
@@ -55,7 +61,6 @@ def get_country_listing(
             end_idx = start_idx + items_per_page
             items_for_page = sorted_json_objects[start_idx:end_idx]
 
-            # Sort the items based on the chosen order (asc or desc)
             if order == "desc":
                 items_for_page = sorted(items_for_page, key=lambda x: x.get(sort_key, 0), reverse=True)
             else:
@@ -70,6 +75,9 @@ def get_country_listing(
                 "current_page": page,
                 "total_pages": total_pages,
                 "create_thumbnail": create_thumbnail,
+                "sort_key": sort_key,
+                "order": order,
+                "sort_by_list": sort_by_list(),
             }
             return template.render(context)
 

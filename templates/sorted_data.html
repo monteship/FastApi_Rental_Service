@@ -7,10 +7,19 @@
 <body>
 <h1>Sorted Data for {{ country_name }}</h1>
 <ul class="order">
-    <li><a href="?order=asc">Sort by price ascending</a></li>
-    <li><a href="?order=desc">Sort by price descending</a></li>
+    <li><a href="?order=asc">Order by {{ sort_key }} ascending</a></li>
+    <li><a href="?order=desc">Order by {{ sort_key }} descending</a></li>
+</ul>
+<ul class="sort_by">
+    <!-- Loop through sort_by_list to create sorting options -->
+    {% for key in sort_by_list %}
+    <li>
+        <a href="?sort_key={{ key }}">{{ key }}</a>
+    </li>
+    {% endfor %}
 </ul>
 <ul>
+    <!-- Loop through sorted_json_objects to display data -->
     {% for item in sorted_json_objects %}
     <li>
         <h3>{{ item.title }}:</h3> <br>
@@ -19,7 +28,8 @@
             {% for image in item.get('images', [])[:1] %}
             {% if image.external_link %}
             <li>
-                <img src="{{ image.external_link }}" alt="Image {{ loop.index }}" , width="400" , height="400">
+                <!-- Display thumbnail image -->
+                <img src="{{ image.external_link }}" alt="Image {{ loop.index }}" width="400" height="400">
             </li>
             {% endif %}
             {% endfor %}
@@ -31,6 +41,7 @@
 {% if total_pages > 1 %}
 <div>
     <ul class="pagination">
+        <!-- Create pagination links for multiple pages -->
         {% for page_num in range(1, total_pages + 1) %}
         <li {% if page_num== current_page %}class="active" {% endif %}>
             <a href="?page={{ page_num }}">{{ page_num }}</a>
@@ -39,6 +50,5 @@
     </ul>
 </div>
 {% endif %}
-
 </body>
 </html>
