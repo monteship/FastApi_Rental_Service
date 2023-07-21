@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countries list</title>
+</head>
+<body>
+<h1>Countries list</h1>
+<ul>
+    {% for country in countries %}
+    <li><a href="{{ country }}">{{ country }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
