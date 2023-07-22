@@ -66,7 +66,7 @@ def get_country_listing(
             else:
                 items_for_page = sorted(items_for_page, key=lambda x: x.get(sort_key, 0))
 
-            template = "sorted_data.html"
+            template = "listing.html"
             env = Environment(loader=FileSystemLoader("templates"))
             template = env.get_template(template)
             context = {

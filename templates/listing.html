@@ -11,37 +11,31 @@
     <li><a href="?order=desc">Order by {{ sort_key }} descending</a></li>
 </ul>
 <ul class="sort_by">
-    <!-- Loop through sort_by_list to create sorting options -->
     {% for key in sort_by_list %}
     <li>
         <a href="?sort_key={{ key }}">{{ key }}</a>
     </li>
     {% endfor %}
 </ul>
-<ul>
-    <!-- Loop through sorted_json_objects to display data -->
+<div class="grid-container">
     {% for item in sorted_json_objects %}
-    <li>
-        <h3>{{ item.title }}:</h3> <br>
-        <h2>Thumbnails</h2>
-        <ul>
-            {% for image in item.get('images', [])[:1] %}
-            {% if image.external_link %}
-            <li>
-                <!-- Display thumbnail image -->
-                <img src="{{ image.external_link }}" alt="Image {{ loop.index }}" width="400" height="400">
-            </li>
-            {% endif %}
-            {% endfor %}
-        </ul>
-    </li>
+    <div class="grid-item">
+        <h3>{{ item.title }}:</h3>
+        <p><strong>City:</strong> {{ item.city }}</p>
+        {% for image in item.get('images', [])[:1] %}
+        {% if image.external_link %}
+        <li>
+            <img src="{{ image.external_link }}" alt="Image {{ loop.index }}" height="300">
+        </li>
+        {% endif %}
+        {% endfor %}
+    </div>
     {% endfor %}
-</ul>
+</div>
 
 {% if total_pages > 1 %}
 <div>
     <ul class="pagination">
-        <!-- Create pagination links for multiple pages -->
         {% for page_num in range(1, total_pages + 1) %}
         <li {% if page_num== current_page %}class="active" {% endif %}>
             <a href="?page={{ page_num }}">{{ page_num }}</a>
